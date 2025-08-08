@@ -24,6 +24,7 @@ const globalReachRef = useRef<HTMLElement>(null)
 const researchSolutionsRef = useRef<HTMLElement>(null)
 const portfolioRef = useRef<HTMLElement>(null) // Ref for the new portfolio section
 const extensiveFieldNetworkRef = useRef<HTMLElement>(null) // Ref for Extensive Field Network section
+const whyChooseNetworkRef = useRef<HTMLElement>(null) // Ref for Why Choose Our Network section
 
 // Refs for hero section animations
 const heroBadgeRef = useRef<HTMLDivElement>(null)
@@ -245,6 +246,37 @@ useEffect(() => {
         { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.2"
       )
     }
+
+    // Number counting animations for Why Choose Our Network section
+    if (whyChooseNetworkRef.current) {
+      const countElements = [
+        { id: 'pakistan-count', target: 70, suffix: '+' },
+        { id: 'afghanistan-count', target: 11, suffix: '' },
+        { id: 'years-count', target: 15, suffix: '+' },
+        { id: 'surveyors-count', target: 1000, suffix: '+' },
+        { id: 'response-count', target: 24, suffix: 'h' },
+        { id: 'deployment-count', target: 48, suffix: 'h' }
+      ]
+
+      countElements.forEach(({ id, target, suffix }) => {
+        const element = document.getElementById(id)
+        if (element) {
+          gsap.to({}, {
+            duration: 2,
+            onUpdate: function() {
+              const progress = this.progress()
+              const currentValue = Math.floor(target * progress)
+              element.textContent = currentValue + suffix
+            },
+            scrollTrigger: {
+              trigger: whyChooseNetworkRef.current,
+              start: "top 80%",
+              toggleActions: "play none none reverse"
+            }
+          })
+        }
+      })
+    }
   })
 
   // Cleanup function for scroll event listener
@@ -275,7 +307,7 @@ return (
               Transforming
             </span>
             <br />
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-200 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-gray-300 via-white to-gray-200 bg-clip-text text-transparent">
               Business Decisions
             </span>
             <br />
@@ -631,7 +663,7 @@ return (
     </section>
 
     {/* Why Choose Our Network Section */}
-    <section className="relative z-0 bg-white py-20 px-4 text-gray-900">
+    <section ref={whyChooseNetworkRef} className="relative z-0 bg-gray-50 py-20 px-4 text-gray-900">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
@@ -667,11 +699,11 @@ return (
               {/* Stats */}
               <div className="mt-6 flex justify-center space-x-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-cyan-600">70+</div>
+                  <div className="text-2xl font-bold text-cyan-600" id="pakistan-count">0+</div>
                   <div className="text-sm text-gray-500">Pakistan Districts</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">11</div>
+                  <div className="text-2xl font-bold text-blue-600" id="afghanistan-count">0</div>
                   <div className="text-sm text-gray-500">Afghanistan Districts</div>
                 </div>
               </div>
@@ -699,11 +731,11 @@ return (
               {/* Stats */}
               <div className="mt-6 flex justify-center space-x-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600">15+</div>
+                  <div className="text-2xl font-bold text-purple-600" id="years-count">0+</div>
                   <div className="text-sm text-gray-500">Years Experience</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-pink-600">1000+</div>
+                  <div className="text-2xl font-bold text-pink-600" id="surveyors-count">0+</div>
                   <div className="text-sm text-gray-500">Trained Surveyors</div>
                 </div>
               </div>
@@ -731,11 +763,11 @@ return (
               {/* Stats */}
               <div className="mt-6 flex justify-center space-x-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-emerald-600">24h</div>
+                  <div className="text-2xl font-bold text-emerald-600" id="response-count">0h</div>
                   <div className="text-sm text-gray-500">Response Time</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-teal-600">48h</div>
+                  <div className="text-2xl font-bold text-teal-600" id="deployment-count">0h</div>
                   <div className="text-sm text-gray-500">Deployment</div>
                 </div>
               </div>
